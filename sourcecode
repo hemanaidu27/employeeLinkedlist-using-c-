@@ -1,216 +1,203 @@
-#include<iostream>
 #include <stdio.h>
 #include <curses.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX 60
+#include <bits/stdc++.h>
+#include <iostream>
+
 using namespace std;
 
 struct employee
 {
-    int  id;
-    char name[51];
-    char designation[51];
-    char expertise[51];
-    char joiningdate[51];
-    struct employee *next;
+	int  id;
+	char name[51];
+	char designation[51];
+	char expertise[51];
+	char joiningdate[51];    
+	struct employee *next;
 
 };
 
-struct employee *insert(struct employee *HeadofList , int id, char name[],
-                        char designation[], char expertise[], char joiningdate[])
+void addEmployee(struct employee **HeadofList)
 {
-            cout<<endl<<"--> Enter the employee number :";
-            cin>>id;
-            cout<<endl;
-            cout<<"--> Enter the Employee name :";
-            cin>>name;
-            cout<<endl;
-            cout<<"--> Enter the Employee Designation :";
-            cin>>designation;
-            cout<<endl;
-            cout<<"--> Enter the Employee expertise :";
-            cin>>expertise;
-            cout<<endl;
-            cout<<"--> Enter the employee joining date  :";
-            cin>>joiningdate;
-            cout<<endl;
-                                                                                                                            1
-            struct employee *newnode;
-            newnode = (struct employee*)malloc(sizeof(struct employee));
+
+	struct employee *ptr;
+	ptr=*HeadofList;
+     
+	if(ptr == NULL)
+	{	ptr = (struct employee*) malloc(sizeof(struct employee));
+
+		cout<<"\nEnter the employee number:";
+		scanf("%d",&ptr->id);
+		cout<<"\nEnter the employee name :";
+		scanf("%s",ptr->name);
+		cout<<"\nEnter the employee designation :";
+		scanf("%s", ptr->designation);
+		cout<<"\nEnter the employee expertise :";
+		scanf("%s",ptr->expertise);
+		cout<<"\nEnter the employee joiningdate :";
+		scanf("%s", ptr->joiningdate);
+		ptr->next=NULL;
+		*HeadofList = ptr;
+	}
+	else 
+	{
+		while(ptr->next!=NULL)
+		{
+		ptr=ptr->next;
+		}
+	        ptr->next= (struct employee*) malloc(sizeof(struct employee));
+		ptr=ptr->next;
+		cout<<"\nEnter the employee number :";
+		scanf("%d",&ptr->id);
+		cout<<"\nEnter the employee name :";
+		scanf("%s",ptr->name);
+		cout<<"\nEnter the employee designation :";
+		scanf("%s",ptr->designation);
+		cout<<"\nEnter the employee expertise :";
+		scanf("%s", ptr->expertise);
+		cout<<"\nEnter the employee joinigdate :";
+		scanf("%s", ptr->joiningdate);
+		ptr->next=NULL;
+		
 
 
-             if (newnode == NULL)
-                cout<<" Allocation not possible ";
+	}
 
 
-    newnode->id = id;
-    strcpy(newnode->name, name);
-    strcpy(newnode->designation, designation);
-    strcpy(newnode->expertise,expertise);
-    strcpy(newnode->joiningdate, joiningdate);
-    newnode->next = HeadofList;
-    HeadofList = newnode;
-    return(HeadofList);
+
+
 }
 
 void printNode(struct employee  *p)
 
 {
-    cout<<endl;
-    cout<< ".........Employee Details....."<<endl;
-    cout<< " Emp No -->       :"<<  p->id<<endl;
-    cout<< " Name -->           :"<<  p->name<<endl;
-    cout<< " Designation -->  "<< p->designation<<endl;
-    cout<< " Expertise -->      "<< p->expertise<<endl;
-    cout<< " joiningdate -->    "<< p->joiningdate<<endl;
-    cout<<endl;
-    cout<< "..............................";
+	cout<< "\n.........Employee Details.....\n"<<endl;
+	cout<< " Emp No -->    :    "<<p->id<<endl;
+	cout<< " Name -->           :"<<p->name<<endl;
+	cout<< " Designation -->  : " <<p->designation<<endl;
+	cout<< " Expertise -->    : "<<p->expertise<<endl;
+	cout<< " joiningdate -->   : "<<p->joiningdate<<endl;
+	cout<< "..............................\n"<<endl; 
 }
-
-struct employee*  deleteNode(struct employee  *HeadofList, int id)
+void   removeEmployee(struct employee  **HeadofList)
 {
+	int id;
+	struct employee *ptr;
+	struct employee *Head;
+	struct employee *bptr;
+	Head=*HeadofList;
 
-  cout<< " Enter the employee number to be deleted: "<<endl;
-  cin>>id;
+	if(Head==NULL)
+	{
+		cout<<"List is empty\n"<<endl;
+		return;
+	}
+	cout<<" Enter the employee number to be deleted: "<<endl;
+	cin>>id;
 
-  struct employee *ptr;
-
-  struct employee *bptr;
-
-   {
-        ptr = HeadofList;
-        cout<< " Node deleted:";
-        printNode(HeadofList);
-        HeadofList = HeadofList->next;
-        free(ptr);
-        return(HeadofList);
-    }
-    for (ptr = HeadofList->next, bptr = HeadofList; ptr != NULL; ptr = ptr->next,
-                                                               bptr = bptr->next)
-    {
-        if (ptr->id == id)
-        {
-            cout<< " Node deleted:";
-            printNode(ptr);
-            bptr->next = ptr->next;
-            free(ptr);
-            return(HeadofList);
-        }
-    }
-
-    cout<<" Employee Number not found "<< id;
-    return(HeadofList);
+	if (Head->id == id)
+	{
+		ptr = Head;
+		cout<<" Node deleted:";
+		printNode(Head);
+		Head = Head ->next;
+		free(ptr);
+	}
+	for (ptr = Head->next, bptr = Head; ptr != NULL; ptr = ptr->next,
+			bptr = bptr->next)
+	{
+		if (ptr->id == id)
+		{
+			cout<<" Node deleted:"<<endl;
+			printNode(ptr);
+			bptr->next = ptr->next;
+			free(ptr);
+		}
+	}
+	cout<<" Employee Number not found "<<id<<endl;
 }
-
-
-void search(struct employee *HeadofList, int key)
+void findEmployee(struct employee **HeadofList)
 {
+	int key;
+	struct employee *ptr;
+	struct employee *find;
+	find = *HeadofList;
+	ptr= find;
 
-   cout<< " Enter the employee number to be searched: "<<endl;                                                                                                                        
-   return(HeadofList);
+	cout<<" Enter the employee number to be found: "<<endl;
+	cin>>key;
+	for (ptr = find; ptr != NULL; ptr = ptr -> next)
+	{
+		if (ptr->id == key)
+		{
+			cout<<"Key found:"<<endl;
+			printNode(ptr);
+			return;
+		}
+	}
+	cout<<"Employee Number  not found "<<key<<endl;
 }
 
-void search(struct employee *HeadofList, int key)
+void displayList(struct employee  *HeadofList)
 {
+	struct employee *display;
+	display=HeadofList;
 
-    cout<< " Enter the employee number to be searched: "<<endl;
-    cin>>key;
+	if (display == NULL)
+		printf("List	Empty");
+        cout<< display<<endl;
+	while(display->next!=NULL)
 
-    struct employee *ptr;
-
-      for (ptr = HeadofList; ptr != NULL; ptr = ptr -> next)
-    {
-        if (ptr->id == key)
-        {
-            cout<<" Key found:";
-            printNode(ptr);
-            return;
-        }
-    }
-    cout<< "Employee Number not found "<<key;
+	{
+		printNode(display);
+		display=display->next;
+		
+	}
+	printNode(display);
 
 }
-
-void display(struct employee  *HeadofList)
-
-{
-
-    if (HeadofList == NULL)
-         cout<<" List Empty";
-
-    struct employee  *ptr;
-
-    for (ptr = HeadofList; ptr != NULL; ptr = ptr->next)
-    printNode(ptr);
-
-}
-
 int  option()
-
 {
-    int choice;
-    
-    cout<<endl;
-    cout<<" Press 1 to INSERT a node into the list"<<endl;
-    cout<<" Press 2 to DELETE a node from the list"<<endl;
-    cout<<" press 3 to DISPLAY the list"<<endl;
-    cout<<" Press 4 to SEARCH the list"<<endl;
-    cout<<" Press 5 to EXIT..."<<endl<<endl;
-    cout<<" -->>>> Enter your choice: ";
-    cin>>choice;
-    cout<<endl;
-    
-    return choice;
+	int choice;  
+	cout<<"\n Press 1 to INSERT a node into the list\n";
+	cout<<" Press 2 to DELETE a node from the list\n";
+	cout<<" press 3 to DISPLAY the list\n";
+	cout<<" Press 4 to SEARCH the list\n";
+	cout<<" Press 5 to EXIT...\n";
+	cout<<" \nEnter your choice: ";
+	cin>>choice;
+	cout<<"\n";
+	return choice;
 }
-
-int   main()
+int main()
 {
-    struct employee *employeeList;
-    struct employee emp;
-    char name[21], designation[51], expertise[50], joiningdate[50];
-    int choice;
-    int id;
-    employeeList = NULL;
+	struct employee *employeeList = NULL;
+	int choice;
+	cout<<" Welcome to ebytelogic!\n";
+	do
+	{
+		choice = option();
+		switch(choice)
+		{
+			case 1:
+				addEmployee(&employeeList);
+				break;
+			case 2:
+				removeEmployee(&employeeList);
+				break;
+			case 3:
+				displayList(employeeList);
+				break;	    
+			case 4:
+				findEmployee(&employeeList);
+				break;
+			case 5:
+				return 0;
+			default :
+				cout<<"Invalid choice.";
+		}
+	}  while (1);
 
-
-    cout<<" Welcome to ebytelogic!";
-    cout<<endl;
-
-    do
-    {
-        choice = option();
-        switch(choice)
-        {
-
-         case 1:
-
-            employeeList = insert(employeeList, id, name, designation, expertise, joiningdate);
-            break;
-         case 2:
-
-            employeeList = deleteNode(employeeList, id);
-            break;
-        case 3:
-
-            display(employeeList);
-            break;
-        case 4:
-
-            search(employeeList, id);
-            break;
-        case 5:
-
-            exit;
-            break;
-        default :
-            
-            cout<<endl<<" Invalid choice.";
-
-        }
-
-    } while (choice != 5);
-
-    return 0;
-
+	return 0;
 }
